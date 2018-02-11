@@ -13,13 +13,7 @@ tf.import_graph_def(graph_def, input_map=None, return_elements=None, name='', op
 graph = tf.get_default_graph()
 tensors = [n.name for n in tf.get_default_graph().as_graph_def().node]
 
-wtoidx = {}
-with open('./wordids.txt', 'r') as wid:
-	vocab = wid.readlines()
-	for i in range(len(vocab)):
-		vocab[i] = vocab[i].replace('\n', '').decode('utf-8')
-		wtoidx[vocab[i]] = i
-
+wtoidx = np.load("./wordmap.npy").tolist()
 idxtow = dict(zip(wtoidx.values(), wtoidx.keys()))
 
 # np.save("Dataset/wordmap", wtoidx)
@@ -72,7 +66,8 @@ cap = cv2.VideoCapture(0)
 if not cap.isOpened():
 	exit(0)
 
-print "Correctly opened resource, starting to show feed."
+print "Correctly opened resource, starting to show feed.\n"
+print "Press 'q' to quit."
 while True:
 	rval, frame = cap.read()
 	if frame is None:

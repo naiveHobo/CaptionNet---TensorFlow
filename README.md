@@ -11,7 +11,7 @@ The decoder network is a basic lstm network that takes in the output of the enco
 HoboCaptionNet was trained on a combination of COCO-2017 and flickr30k datasets using tensorflow-1.4. The pre-trained model is available [here](https://drive.google.com/file/d/1WJi66moaZuORmRjJhrAdKX7pes93dAKF/view?usp=sharing). The file must be placed in the 'model/Trained_Graphs' directory.
 
 ## Testing
-To test the model pre-trained model, run the test.py script.
+To test the pre-trained model, run the test.py script.
 ```
 python test.py --h
 ```

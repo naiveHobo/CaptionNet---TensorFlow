@@ -12,8 +12,8 @@ HoboCaptionNet was trained on a combination of COCO-2017 and flickr30k datasets 
 
 ## Testing
 To test the model pre-trained model, run the test.py script.
-'''
+```
 python test.py --h
-'''
+```
 
 Training and evaluation instructions will be updated soon.

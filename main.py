@@ -39,7 +39,7 @@ parser.add_argument(
     "--inception_path",
     type=str,
     help="A valid path to inception_v4.pb",
-    default="ConvNets/inception_v4.pb")
+    default="inception/inception_v4.pb")
 parser.add_argument(
     "--saveencoder",
     help="Save Decoder graph in model/Encoder/",

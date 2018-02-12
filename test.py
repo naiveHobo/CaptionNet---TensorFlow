@@ -4,6 +4,19 @@ import matplotlib.pyplot as plt
 from PIL import Image
 import os
 import cv2
+import argparse
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--image",
+    type=str,
+    help="Path to image that is to be tested.")
+parser.add_argument(
+    "--video",
+    type=str,
+    help="Path to video that is to be tested. 0 for webcam.")
+
+args = parser.parse_args()
 
 with open('./model/Trained_Graphs/merged_frozen_graph.pb', 'rb') as f:
 	fileContent = f.read()
@@ -13,7 +26,7 @@ tf.import_graph_def(graph_def, input_map=None, return_elements=None, name='', op
 graph = tf.get_default_graph()
 tensors = [n.name for n in tf.get_default_graph().as_graph_def().node]
 
-wtoidx = np.load("./wordmap.npy").tolist()
+wtoidx = np.load("Dataset/wordmap.npy").tolist()
 idxtow = dict(zip(wtoidx.values(), wtoidx.keys()))
 
 # np.save("Dataset/wordmap", wtoidx)
@@ -62,18 +75,34 @@ def generate_caption(sess, image):
 
 sess = init_caption_generator()
 
-cap = cv2.VideoCapture(0)
-if not cap.isOpened():
-	exit(0)
-
-print "Correctly opened resource, starting to show feed.\n"
-print "Press 'q' to quit."
-while True:
-	rval, frame = cap.read()
+if args.image is not None:
+	frame = cv2.imread(args.image)
 	if frame is None:
-		print "ERROR"
-		break
+		print "ERROR IN RESOURCE"
+		quit()
+		
 	generate_caption(sess,frame)
 	cv2.imshow("Yolo",frame)
-	if cv2.waitKey(1) == ord('q'):
-		break
+	cv2.waitKey(0)
+
+elif args.video is not None:
+	if args.video == '0':
+		resource = 0
+	else:
+		resource = args.video
+	cap = cv2.VideoCapture(resource)
+	if not cap.isOpened():
+		print "ERROR"
+		exit(0)
+
+	print "Correctly opened video stream, starting to show feed.\n"
+	print "Press 'q' to quit."
+	while True:
+		rval, frame = cap.read()
+		if frame is None:
+			print "ERROR IN RESOURCE"
+			break
+		generate_caption(sess,frame)
+		cv2.imshow("Yolo",frame)
+		if cv2.waitKey(1) == ord('q'):
+			break

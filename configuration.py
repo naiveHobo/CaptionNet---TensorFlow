@@ -20,6 +20,6 @@ class Configuration():
         self.resume = args["resume"]
         self.load_image = bool(args.get("load_image"))
         self.data_is_coco = bool(args.get("data_is_coco"))
-        self.inception_path = args.get("inception_path", "ConvNets/inception_v4.pb")
+        self.inception_path = args.get("inception_path", "inception/inception_v4.pb")
         self.saveencoder = bool(args.get("saveencoder"))
         self.savedecoder = bool(args.get("savedecoder"))
